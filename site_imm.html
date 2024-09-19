@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Immagini con Descrizione e Casella di Testo</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="image-box">
+            <img src="https://exclusion.it/wp-content/uploads/2024/02/cani-da-lavoro.jpeg" alt="Descrizione immagine 1">
+            <p>Descrizione immagine 1</p>
+            <textarea placeholder="Scrivi qui..."></textarea>
+        </div>
+        <div class="image-box">
+            <img src="https://t4.ftcdn.net/jpg/03/83/25/83/360_F_383258331_D8imaEMl8Q3lf7EKU2Pi78Cn0R7KkW9o.jpg" alt="Descrizione immagine 2">
+            <p>Descrizione immagine 2</p>
+            <textarea placeholder="Scrivi qui..."></textarea>
+        </div>
+        <div class="image-box">
+            <img src="https://hlloret.com/wp-content/uploads/2022/11/barcelona-casa-batllo-facade.jpg" alt="Descrizione immagine 3">
+            <p>Descrizione immagine 3</p>
+            <textarea placeholder="Scrivi qui..."></textarea>
+        </div>
+        <div class="image-box">
+            <img src="https://media.istockphoto.com/id/155439315/it/foto/passeggero-aereo-volare-sopra-le-nuvole-durante-il-tramonto.jpg?s=612x612&w=0&k=20&c=eGlKEXjD9FoOH33EsnvcUEeEhaOqUGSEVURrxNvXiRU=" alt="Descrizione immagine 4">
+            <p>Descrizione immagine 4</p>
+            <textarea placeholder="Scrivi qui..."></textarea>
+        </div>
+    </div>
+</body>
+</html>
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    background-color: #f0f0f0;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Spazio tra le immagini */
+    width: 300px; /* Larghezza fissa per le immagini */
+}
+
+.image-box {
+    text-align: center;
+}
+
+img {
+    width: 100%; /* Adatta l'immagine alla larghezza del box */
+    height: 200px; /* Altezza fissa per tutte le immagini */
+    object-fit: cover; /* Mantiene le proporzioni e riempie il box */
+    border-radius: 8px; /* Angoli arrotondati per un aspetto più moderno */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Ombra per un effetto di sollevamento */
+}
+
+p {
+    margin: 10px 0 10px;
+    font-size: 14px;
+    color: #333;
+}
+
+textarea {
+    width: 100%;
+    height: 60px; /* Altezza della casella di testo */
+    margin-top: 10px; /* Spazio sopra la casella di testo */
+    padding: 10px;
+    border: 2px solid black; /* Bordi neri */
+    border-radius: 4px; /* Angoli arrotondati per un aspetto più morbido */
+    box-sizing: border-box; /* Include padding e border nella larghezza totale */
+    resize: vertical; /* Permette di ridimensionare la casella solo verticalmente */
+}

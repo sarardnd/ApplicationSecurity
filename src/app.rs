@@ -1,7 +1,21 @@
 use yew::prelude::*;
-
+use crate::lobby::Lobby;
 #[function_component(App)]
 pub fn app() -> Html {
+    //TODO: doesn't go to the lobby if the fields are not filled
+    let show_lobby = use_state(|| false);
+
+    let onclick = {
+        let show_lobby = show_lobby.clone();
+        Callback::from(move |_| {
+            show_lobby.set(true);
+        })
+    };
+
+    if *show_lobby {
+        return html! { <Lobby /> };
+    }
+
     html! {
         <main>
             <div class="container">
@@ -16,7 +30,7 @@ pub fn app() -> Html {
                         <div class="underline"></div>
                     </div>
                     <div class="input-box button">
-                        <input type="submit" name="" value="Continue"/>
+                        <input type="submit" {onclick} name="" value="Continue"/>
                     </div>
                 </form>
             </div>

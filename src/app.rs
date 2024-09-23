@@ -1,14 +1,19 @@
 use yew::prelude::*;
 use crate::lobby::Lobby;
+use web_sys::HtmlFormElement;
+
 #[function_component(App)]
 pub fn app() -> Html {
-    //TODO: doesn't go to the lobby if the fields are not filled
     let show_lobby = use_state(|| false);
 
-    let onclick = {
+    let onsubmit = {
         let show_lobby = show_lobby.clone();
-        Callback::from(move |_| {
-            show_lobby.set(true);
+        Callback::from(move |e: SubmitEvent| {
+            e.prevent_default();
+            let form = e.target_unchecked_into::<HtmlFormElement>();
+            if form.check_validity() {
+                show_lobby.set(true);
+            }
         })
     };
 
@@ -19,10 +24,10 @@ pub fn app() -> Html {
     html! {
         <main>
             <div class="container">
-                <form action="#">
+                <form {onsubmit}>
                     <div class="title">{"Login"}</div>
                     <div class="input-box underline">
-                        <input type="text" placeboholder="Enter your email" required=true/>
+                        <input type="text" placeholder="Enter your email" required=true/>
                         <div class="underline"></div>
                     </div>
                     <div class="input-box">
@@ -30,7 +35,7 @@ pub fn app() -> Html {
                         <div class="underline"></div>
                     </div>
                     <div class="input-box button">
-                        <input type="submit" {onclick} name="" value="Continue"/>
+                        <input type="submit" value="Continue"/>
                     </div>
                 </form>
             </div>

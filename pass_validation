@@ -1,0 +1,57 @@
+use regex::Regex; // You need to add `regex` crate to your Cargo.toml file
+use std::fmt;
+
+#[derive(Debug)]
+pub enum PasswordError {
+    TooShort,
+    MissingUppercase,
+    MissingLowercase,
+    MissingDigit,
+    MissingSpecialChar,
+}
+
+impl fmt::Display for PasswordError {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            PasswordError::TooShort => write!(f, "Password is too short."),
+            PasswordError::MissingUppercase => write!(f, "Password must contain at least one uppercase letter."),
+            PasswordError::MissingLowercase => write!(f, "Password must contain at least one lowercase letter."),
+            PasswordError::MissingDigit => write!(f, "Password must contain at least one digit."),
+            PasswordError::MissingSpecialChar => write!(f, "Password must contain at least one special character."),
+        }
+    }
+}
+
+pub struct Password(String);
+
+impl Password {
+    pub fn new(password: &str) -> Result<Self, PasswordError> {
+        // Define the minimum length for a strong password
+        if password.len() < 8 {
+            return Err(PasswordError::TooShort);
+        }
+
+        // Check if password contains an uppercase letter
+        if !password.chars().any(|c| c.is_uppercase()) {
+            return Err(PasswordError::MissingUppercase);
+        }
+
+        // Check if password contains a lowercase letter
+        if !password.chars().any(|c| c.is_lowercase()) {
+            return Err(PasswordError::MissingLowercase);
+        }
+
+        // Check if password contains a digit
+        if !password.chars().any(|c| c.is_digit(10)) {
+            return Err(PasswordError::MissingDigit);
+        }
+
+        // Check if password contains a special character (non-alphanumeric)
+        let special_char_re = Regex::new(r"[!@#$%^&*(),.?\:{}|<>]").unwrap();
+        if !special_char_re.is_match(password) {
+            return Err(PasswordError::MissingSpecialChar);
+        }
+
+        Ok(Password(password.to_string()))
+    }
+}

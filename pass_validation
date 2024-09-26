@@ -1,4 +1,4 @@
-use regex::Regex; // You need to add `regex` crate to your Cargo.toml file
+use regex::Regex; 
 use std::fmt;
 
 #[derive(Debug)]

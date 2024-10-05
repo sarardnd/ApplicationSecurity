@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Images and Text Boxes</title> 
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+    
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Poppins', sans-serif;
+      }
+      html, body {
+        background: linear-gradient(to right, #99004d 0%, #ff6200 100%);
+        padding: 20px;
+      }
+      .image-gallery {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+      }
+      .column {
+        width: 22%;
+        background-color: white;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .column:hover {
+        transform: scale(1.05);
+      }
+      .image-gallery img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 8px;
+      }
+      .caption {
+        text-align: center;
+        margin-top: 10px;
+        font-weight: bold;
+      }
+      .input-box {
+        margin-top: 10px;
+        padding: 8px;
+        border: 2px solid black;
+        width: 100%;
+        max-width: 150px;
+      }
+      .upload-section {
+        margin-top: 20px;
+        display: flex;
+        align-items: center;
+        padding: 10px;
+      }
+      .upload-section label {
+        color: white;
+      }
+      .upload-section button {
+        padding: 10px 15px;
+        margin-left: 10px;
+        background-color: #ff6200;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      .upload-section button:hover {
+        background-color: #99004d;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="image-gallery" id="image-gallery">
+    </div>
+
+    <!-- Upload section -->
+    <div class="upload-section">
+      <input type="file" id="upload" accept="image/*" style="display: none;" onchange="handleImageUpload(event)">
+      <button onclick="document.getElementById('upload').click();">Upload Image</button>
+    </div>
+
+    <script>
+    
+      let defaultImages = [
+        "https://www.b2x.it/rest/images/2023/11/15/1488336.jpg?imageFormat=@1x",
+        "https://www.openpolis.it/wp-content/uploads/2024/03/etty-fidele-unsplash-migrant.jpg",
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQf_x5IBe875hDRs53e4JloCEoNYS-FEAIGCg&s",
+        "https://rockrun.com/cdn/shop/articles/bouldering-for-strength3_1600x.jpg?v=1602248316"
+      ];
+
+    
+      function getStoredImages() {
+        const storedImages = localStorage.getItem('images');
+        return storedImages ? JSON.parse(storedImages) : defaultImages;
+      }
+
+      let images = getStoredImages();
+
+      
+      function handleImageUpload(event) {
+        const file = event.target.files[0];
+        if (file && file.type.startsWith('image/')) {
+          const reader = new FileReader();
+          reader.onload = function(e) {
+            updateGallery(e.target.result);
+          };
+          reader.readAsDataURL(file);
+        }
+      }
+
+      
+      function updateGallery(newImage) {
+        if (images.length < 4) {
+          images.push(newImage);
+        } else {
+          images.shift();
+          images.push(newImage);
+        }
+        
+        localStorage.setItem('images', JSON.stringify(images));
+        refreshGallery();
+      }
+
+      
+      function refreshGallery() {
+        const gallery = document.getElementById('image-gallery');
+        gallery.innerHTML = '';
+
+        images.forEach((src, index) => {
+          const column = document.createElement('div');
+          column.classList.add('column');
+
+          const img = document.createElement('img');
+          img.src = src;
+          img.alt = `Image ${index + 1}`;
+          img.style.objectFit = 'cover';
+
+          const caption = document.createElement('div');
+          caption.classList.add('caption');
+          caption.innerText = `Image ${index + 1}`;
+
+          const inputBox = document.createElement('input');
+          inputBox.classList.add('input-box');
+          inputBox.type = 'text';
+          inputBox.placeholder = 'Type here...';
+
+          column.appendChild(img);
+          column.appendChild(caption);
+          column.appendChild(inputBox);
+
+          gallery.appendChild(column);
+        });
+      }
+
+      
+      refreshGallery();
+    </script>
+  </body>
+</html>
